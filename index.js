@@ -6,7 +6,7 @@ const express = require("express");
 const app = express();
 
 /*--
-Data
+DummyData
 --*/
 
 const bandMembers = require("./data");
@@ -56,7 +56,7 @@ app.post("/api/band/", (request, response) => {
 });
 
 /*--
-Update Object
+Update Stuff
 --*/
 
 app.put("/api/band/:id", (request, response) => {
@@ -69,7 +69,6 @@ app.put("/api/band/:id", (request, response) => {
             .send("The Bandmember with the given id cannot be found");
 
     const {error} = validateBand(request.body);
-
     if (error) {
         response.status(400).send(error.details[0].message);
         return;
