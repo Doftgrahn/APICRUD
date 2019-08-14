@@ -9,7 +9,8 @@ const bandMembers = [
     {id: 1, name: "Mickel"},
     {id: 2, name: "Erik"},
     {id: 3, name: "Viktor"},
-    {id: 4, name: "Jimmy"}
+    {id: 4, name: "Jimmy"},
+    {id: 5, name: "Mr. Capo"}
 ];
 
 app.get("/", (req, res) => {
@@ -20,8 +21,19 @@ app.get("/api/band", (req, res) => {
     res.send(bandMembers);
 });
 
+app.get("/api/band/:id", (req, res) => {
+    const bandStuff = bandMembers.find(
+        data => data.id === parseInt(req.params.id)
+    );
+    if (!bandStuff) {
+        res.status(404).send("Band member with given ID was not found");
+        return;
+    }
+    res.send(bandStuff);
+});
+
 app.post("/api/band/", (request, response) => {
-    const {error} = validateCours(request.body);
+    const {error} = validateBand(request.body);
     if (error) {
         response.status(400).send(result.error.datails[0].message);
         return;
@@ -45,7 +57,7 @@ app.put("/api/band/:id", (request, response) => {
         return;
     }
 
-    const {error} = validateCours(request.body);
+    const {error} = validateBand(request.body);
     if (error) {
         response.status(400).send(result.error.datails[0].message);
         return;
@@ -70,7 +82,7 @@ app.delete("/api/band/:id", (request, response) => {
     response.send(bandStuff);
 });
 
-const validateCours = band => {
+const validateBand = band => {
     const schema = {
         name: Joi.string()
             .min(3)
@@ -79,16 +91,9 @@ const validateCours = band => {
     return Joi.validate(band, schema);
 };
 
-app.get("/api/band/:id", (req, res) => {
-    const bandStuff = bandMembers.find(
-        data => data.id === parseInt(req.params.id)
-    );
-    if (!bandStuff) {
-        res.status(404).send("Band member with given ID was not found");
-        return;
-    }
-    res.send(bandStuff);
-});
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`listening on port: ${port}`));
+
+
+console.log('Peace Out!');
