@@ -1,20 +1,16 @@
 const Joi = require("@hapi/joi");
 const express = require("express");
 const app = express();
+const bandMembers = require("./data");
 
 app.use(express.json());
 
-const bandMembers = [
-    {id: 0, name: "Simon"},
-    {id: 1, name: "Mickel"},
-    {id: 2, name: "Erik"},
-    {id: 3, name: "Viktor"},
-    {id: 4, name: "Jimmy"},
-    {id: 5, name: "MrCapo"}
-];
-
 app.get("/", (req, res) => {
-    res.send("Hello World");
+    res.send("Whats up?!");
+});
+
+app.get("/api", (req, res) => {
+    res.send("Getting Closer!");
 });
 
 app.get("/api/band/", (req, res) => {
