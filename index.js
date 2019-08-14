@@ -1,9 +1,21 @@
+/*--
+Dependencies
+--*/
 const Joi = require("@hapi/joi");
 const express = require("express");
 const app = express();
+
+/*--
+Data
+--*/
+
 const bandMembers = require("./data");
 
 app.use(express.json());
+
+/*--
+All app.get is showing stuff
+--*/
 
 app.get("/", (req, res) => {
     res.send("Whats up?!");
@@ -27,6 +39,10 @@ app.get("/api/band/:id", (req, res) => {
     res.send(bandStuff);
 });
 
+/*--
+Post Stuff!
+--*/
+
 app.post("/api/band/", (request, response) => {
     const {error} = validateBand(request.body);
     if (error) return response.status(400).send(error.details[0].message);
@@ -38,6 +54,10 @@ app.post("/api/band/", (request, response) => {
     bandMembers.push(band);
     response.send(band);
 });
+
+/*--
+Update Object
+--*/
 
 app.put("/api/band/:id", (request, response) => {
     const bandStuff = bandMembers.find(
@@ -59,6 +79,10 @@ app.put("/api/band/:id", (request, response) => {
     response.send(bandStuff);
 });
 
+/*--
+Delete Stuff!
+--*/
+
 app.delete("/api/band/:id", (request, response) => {
     const bandStuff = bandMembers.find(
         data => data.id === parseInt(request.params.id)
@@ -73,6 +97,10 @@ app.delete("/api/band/:id", (request, response) => {
     response.send(bandStuff);
 });
 
+/*--
+Function for validation
+--*/
+
 const validateBand = bands => {
     const schema = {
         name: Joi.string()
@@ -81,6 +109,10 @@ const validateBand = bands => {
     };
     return Joi.validate(bands, schema);
 };
+
+/*--
+Ports and Listen
+--*/
 
 const port = process.env.PORT || 3000;
 
